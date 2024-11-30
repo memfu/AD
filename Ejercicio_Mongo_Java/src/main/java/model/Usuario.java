@@ -22,14 +22,10 @@ public class Usuario implements Serializable {
     private float rating;
     @BsonProperty(DBScheme.keyGender)
     private String genero;
-
     @BsonProperty(DBScheme.keyMail)
     private String correo;
     @BsonProperty(DBScheme.keyPhone)
     private String telefono;
-
-
-
 
     @Override
     public String toString() {

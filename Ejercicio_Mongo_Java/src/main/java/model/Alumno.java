@@ -20,10 +20,18 @@ public class Alumno extends Usuario{
     private int calificacion;
 
 
-    public Alumno(Usuario usuario, String grade, int calificacion) {
+    public Alumno(String nombre, int edad, float rating, String genero, String correo, String telefono, String grade, int calificacion) {
+        super(nombre, edad, rating, genero, correo, telefono);
         this.calificacion = calificacion;
         this.grade = grade;
     }
+
+    public Alumno(Usuario usuario, String grade, int calificacion) {
+        super(usuario.getNombre(), usuario.getEdad(), usuario.getRating(), usuario.getGenero(), usuario.getCorreo(), usuario.getTelefono()); // Llamada al constructor de Usuario
+        this.grade = grade;
+        this.calificacion = calificacion;
+    }
+
 
 
     @Override

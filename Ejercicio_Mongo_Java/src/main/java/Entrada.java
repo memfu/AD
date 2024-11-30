@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Entrada {
     private static Scanner scanner = new Scanner(System.in);
     private static Validador validador = new Validador();
-    private static PreguntaRespuesta cuestionario = new PreguntaRespuesta();
+    private static PreguntaRespuesta preguntaRespuesta = new PreguntaRespuesta();
 
     private static Usuario usuarioGeneral = new Usuario();
 
@@ -35,30 +35,22 @@ public class Entrada {
 
             switch (respuestaMenu) {
                 case 1:
-                    usuarioGeneral = cuestionario.cuestionarioGeneral();
+                    usuarioGeneral = preguntaRespuesta.cuestionarioGeneral();
                     int calificacion = validador.checkIntAnswer("Calificación: ");
-                    String grado = cuestionario.askQuestion(scanner,"Grado: ");
+                    String grado = preguntaRespuesta.askQuestion(scanner,"Grado: ");
 
                     alumnoDAO.addAlumno(usuarioGeneral,grado,calificacion);
                     break;
                 case 2:
-                    usuarioGeneral = cuestionario.cuestionarioGeneral();
-                    String titulo = cuestionario.askQuestion(scanner,"Título: ");
-                    System.out.println("Inserte las asignaturas del profesor separadas por coma.");
-                    String entrada = scanner.nextLine();
-                    ArrayList<String> asignaturas = new ArrayList<>();
-
-                    // Divide la entrada en partes y agrega al ArrayList
-                    for (String elemento : entrada.split(",")) {
-                        asignaturas.add(elemento.trim()); // Elimina espacios adicionales y agrega al ArrayList
-                    }
-
+                    usuarioGeneral = preguntaRespuesta.cuestionarioGeneral();
+                    String titulo = preguntaRespuesta.askQuestion(scanner,"Título: ");
+                    ArrayList<String> asignaturas = validador.pedirArrayListAsignaturas();
                     profesorDAO.addProf(usuarioGeneral,titulo,asignaturas);
                     break;
                 case 3:
                     boolean respuestaValida = false;
                     while (!respuestaValida) {
-                        String respuestaMostrar = cuestionario.askQuestion(scanner,"¿Qué usuarios desea ver: alumnos, profesores o ambos?");
+                        String respuestaMostrar = preguntaRespuesta.askQuestion(scanner,"¿Qué usuarios desea ver: alumnos, profesores o ambos?");
                         if (respuestaMostrar.equalsIgnoreCase("alumnos")) {
                             alumnoDAO.showAlumnos();
                             respuestaValida = true;
@@ -75,7 +67,7 @@ public class Entrada {
                     }
                     break;
                 case 4:
-                    String correo = cuestionario.askQuestion(scanner,"Introduzca el correo del alumno/a que desea obtener.");
+                    String correo = preguntaRespuesta.askQuestion(scanner,"Introduzca el correo del alumno/a que desea obtener.");
                     alumnoDAO.searchAlumnoByMail(correo);
                     break;
                 case 5:

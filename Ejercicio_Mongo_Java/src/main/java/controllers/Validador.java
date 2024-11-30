@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Validador {
@@ -37,6 +38,38 @@ public class Validador {
             if (edad < 0) System.out.println("La edad debe ser positiva.");
         } while (edad < 0);
         return edad;
+    }
+
+    public ArrayList<String> pedirArrayListAsignaturas() {
+        ArrayList<String> asignaturas = new ArrayList<>();
+        boolean entradaValida = false;
+
+        while (!entradaValida) {
+            System.out.println("Introduzca las asignaturas separadas por comas:");
+            String entrada = scanner.nextLine();
+
+            // Valida que contiene al menos una coma
+            if (!entrada.contains(",")) {
+                System.out.println("Error: Las asignaturas deben estar separadas por comas. Inténtelo de nuevo.");
+                continue;
+            }
+
+            // Divide y procesa las asignaturas
+            String[] partes = entrada.split(",");
+            for (String parte : partes) {
+                asignaturas.add(parte.trim()); // Elimina espacios adicionales
+            }
+
+            // Valida que no hay elementos vacíos
+            if (asignaturas.isEmpty() || asignaturas.stream().anyMatch(String::isEmpty)) {
+                System.out.println("Error: Una o más asignaturas están vacías. Intenta de nuevo.");
+                asignaturas.clear(); // Limpia la lista antes de intentarlo de nuevo
+            } else {
+                entradaValida = true; // La entrada es válida
+            }
+        }
+
+        return asignaturas;
     }
 
 

@@ -13,16 +13,23 @@ import java.util.ArrayList;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Profesor {
+public class Profesor extends Usuario {
     @BsonProperty(DBScheme.keyTitlePr)
     private String titulo;
     @BsonProperty(DBScheme.keySubjectsPr) // To indicate that the name of the property within the collection has another name
     private ArrayList<String> asignaturas;
 
 
-    public Profesor(Usuario usuario, String titulo, ArrayList<String> asignaturas) {
-        this.asignaturas = asignaturas;
+    public Profesor(String nombre, int edad, float rating, String genero, String correo, String telefono, String titulo, ArrayList<String> asignaturas) {
+        super(nombre, edad, rating, genero, correo, telefono); // Llamada al constructor de Usuario
         this.titulo = titulo;
+        this.asignaturas = asignaturas;
+    }
+
+    public Profesor(Usuario usuario, String titulo, ArrayList<String> asignaturas) {
+        super(usuario.getNombre(), usuario.getEdad(), usuario.getRating(), usuario.getGenero(), usuario.getCorreo(), usuario.getTelefono()); // Llamada al constructor de Usuario
+        this.titulo = titulo;
+        this.asignaturas = asignaturas;
     }
 
     @Override

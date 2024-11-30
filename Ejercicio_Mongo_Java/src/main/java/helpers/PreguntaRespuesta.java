@@ -11,8 +11,7 @@ public class PreguntaRespuesta {
 
     public String askQuestion(Scanner scanner, String pregunta){
         System.out.println(pregunta);
-        String respuesta = scanner.next();
-        scanner.nextLine(); // consume la entrada inválida y limpia el buffer
+        String respuesta = scanner.nextLine();
         return respuesta;
     }
 
@@ -26,7 +25,7 @@ public class PreguntaRespuesta {
         String genero = cuestionario.askQuestion(scanner,"Género: ");
         System.out.println("Rating: ");
         float rating = scanner.nextFloat();
-
+        scanner.nextLine(); // Limpia el salto de línea residual
         String correo = cuestionario.askQuestion(scanner,"Correo electrónico: ");
         String telefono = cuestionario.askQuestion(scanner,"Teléfono: ");
 
