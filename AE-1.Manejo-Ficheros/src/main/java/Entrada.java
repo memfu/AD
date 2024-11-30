@@ -1,14 +1,24 @@
+import controllers.GestionFicheros;
 import controllers.Validador;
 import dao.CocheDAO;
+import model.Coche;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Entrada {
 
     public static void main (String [] args) {
-        CocheDAO car = new CocheDAO();
+        GestionFicheros gestionFicheros = new GestionFicheros();
+
         // Comprueba si existe un fichero coches.dat. Si sí, exporta el contenido a un ArrayList, si no inicializa el ArrayList
-        car.checkFile();
+        ArrayList<Coche> listadoCoches = gestionFicheros.checkFile();
+
+        // Pasamos el ArrayList compartido a ambas clases
+        CocheDAO car = new CocheDAO(listadoCoches);
+        // Configura el listado también en GestionFicheros
+        gestionFicheros.setListadoCoches(listadoCoches);
+
 
         Validador validador = new Validador();
         Scanner scanner = new Scanner(System.in);
@@ -60,10 +70,10 @@ public class Entrada {
                     car.showCars();
                     break;
                 case 5:
-                    car.exportCSV();
+                    gestionFicheros.exportCSV();
                     break;
                 case 6:
-                    car.writeFinalFile();
+                    gestionFicheros.writeFinalFile();
                     validador.cerrarScanner();
                     System.out.println("El programa se ha cerrado con éxito.");
                     break;
