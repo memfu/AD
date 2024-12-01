@@ -19,7 +19,7 @@ public class Entrada {
             "1. Insertar un/a estudiante.\n" +
             "2. Insertar un/a docente.\n" +
             "3. Mostrar datos de usuarios.\n" +
-            "4. Obtener estudiantes por correo.\n" +
+            "4. Obtener estudiante por correo.\n" +
             "5. Obtener docentes por edad.\n" +
             "6. Actualizar calificación de docente por correo.\n" +
             "7. Dar de baja a estudiantes aprobados.\n" +
