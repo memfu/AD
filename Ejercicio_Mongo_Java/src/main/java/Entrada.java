@@ -1,6 +1,7 @@
 import controllers.Validador;
 import dao.AlumnoDAO;
 import dao.ProfesorDAO;
+import database.DBScheme;
 import helpers.PreguntaRespuesta;
 import model.Usuario;
 
@@ -15,13 +16,13 @@ public class Entrada {
     private static Usuario usuarioGeneral = new Usuario();
 
     private static String menu = "Elija una de las siguientes opciones introduciendo el número:\n" +
-            "1. Insertar un alumno.\n" +
-            "2. Insertar un profesor.\n" +
+            "1. Insertar un/a estudiante.\n" +
+            "2. Insertar un/a docente.\n" +
             "3. Mostrar datos de usuarios.\n" +
-            "4. Obtener alumnos por correo.\n" +
-            "5. Obtener profesores por edad.\n" +
-            "6. Actualizar calificación de profesor.\n" +
-            "7. Dar de baja a alumnos aprobados.\n" +
+            "4. Obtener estudiantes por correo.\n" +
+            "5. Obtener docentes por edad.\n" +
+            "6. Actualizar calificación de docente por correo.\n" +
+            "7. Dar de baja a estudiantes aprobados.\n" +
             "8. Salir.\n";
 
     public static void main(String[] args) {
@@ -44,21 +45,23 @@ public class Entrada {
                 case 2:
                     usuarioGeneral = preguntaRespuesta.cuestionarioGeneral();
                     String titulo = preguntaRespuesta.askQuestion(scanner,"Título: ");
-                    ArrayList<String> asignaturas = validador.pedirArrayListAsignaturas();
+                    ArrayList<String> asignaturas = validador.pedirArrayList("Introduzca las asignaturas separadas por comas:");
                     profesorDAO.addProf(usuarioGeneral,titulo,asignaturas);
                     break;
                 case 3:
                     boolean respuestaValida = false;
                     while (!respuestaValida) {
-                        String respuestaMostrar = preguntaRespuesta.askQuestion(scanner,"¿Qué usuarios desea ver: alumnos, profesores o ambos?");
-                        if (respuestaMostrar.equalsIgnoreCase("alumnos")) {
+                        String respuestaMostrar = preguntaRespuesta.askQuestion(scanner,"¿Qué usuarios desea ver: estudiantes, docentes o ambos?");
+                        if (respuestaMostrar.equalsIgnoreCase("estudiantes")) {
                             alumnoDAO.showAlumnos();
                             respuestaValida = true;
-                        } else if (respuestaMostrar.equalsIgnoreCase("profesores")) {
+                        } else if (respuestaMostrar.equalsIgnoreCase("docentes")) {
                             profesorDAO.showProf();
                             respuestaValida = true;
                         } else if (respuestaMostrar.equalsIgnoreCase("ambos")) {
+                            System.out.println("---ALUMNOS---");
                             alumnoDAO.showAlumnos();
+                            System.out.println("\n---PROFESORES---");
                             profesorDAO.showProf();
                             respuestaValida = true;
                         } else {
@@ -67,7 +70,7 @@ public class Entrada {
                     }
                     break;
                 case 4:
-                    String correo = preguntaRespuesta.askQuestion(scanner,"Introduzca el correo del alumno/a que desea obtener.");
+                    String correo = preguntaRespuesta.askQuestion(scanner,"Introduzca el correo del/de la estudiante que desea obtener.");
                     alumnoDAO.searchAlumnoByMail(correo);
                     break;
                 case 5:
@@ -76,8 +79,14 @@ public class Entrada {
                     profesorDAO.searchProfByAge(minAge,maxAge);
                     break;
                 case 6:
+                    String mailProf = preguntaRespuesta.askQuestion(scanner,"Introduzca el correo del/de la docente que desea actualizar.");
+                    if (profesorDAO.checkExistingProf(DBScheme.keyMail,mailProf)) {
+                        double newRating = validador.checkDoubleAnswer("Introduzca la nueva calificación del/de la docente.");
+                        profesorDAO.updateProf(mailProf,newRating);
+                    }
                     break;
                 case 7:
+                    alumnoDAO.deleteAlumnoAprobado(5);
                     break;
                 case 8:
                     validador.cerrarScanner();

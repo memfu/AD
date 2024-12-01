@@ -1,6 +1,5 @@
 package model;
 
-import dao.AlumnoDAO;
 import database.DBScheme;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +15,7 @@ public class Alumno extends Usuario{
 
     @BsonProperty(DBScheme.keyGradeAl)
     private String grade;
-    @BsonProperty(DBScheme.keyCalifAl)
+    @BsonProperty("calificaation")
     private int calificacion;
 
 

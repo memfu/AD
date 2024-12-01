@@ -7,19 +7,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
-import java.io.Serializable;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Usuario implements Serializable {
+public class Usuario {
     @BsonProperty(DBScheme.keyName)
     private String nombre;
     @BsonProperty(DBScheme.keyAge)
     private int edad;
-    private float rating;
+    private double rating;
     @BsonProperty(DBScheme.keyGender)
     private String genero;
     @BsonProperty(DBScheme.keyMail)

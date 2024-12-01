@@ -4,6 +4,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.DeleteResult;
 import database.DBScheme;
 import database.MongoDBConnection;
 import model.Alumno;
@@ -32,8 +33,16 @@ public class AlumnoDAO {
         }
     }
 
-    public void updateAlumno(String campo) {
-
+    public void deleteAlumnoAprobado (int notaAprobado) {
+        Bson filtradoNota = Filters.gte(DBScheme.keyCalifAl, notaAprobado);
+        DeleteResult resultado =  collection.deleteMany(filtradoNota);
+        // Obtiene el número de documentos eliminados
+        long eliminados = resultado.getDeletedCount();
+        if (eliminados == 0) {
+            System.out.println("No se han hecho cambios.");
+        } else {
+            System.out.println("Se han dado de baja correctamente a " + eliminados + " alumnos aprobados.");
+        }
     }
 
     public void showAlumnos(){

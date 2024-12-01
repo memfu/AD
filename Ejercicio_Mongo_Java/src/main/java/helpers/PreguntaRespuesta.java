@@ -23,9 +23,7 @@ public class PreguntaRespuesta {
         String nombre = cuestionario.askQuestion(scanner,"Nombre: ");
         int edad = validador.pedirEdad("Edad: ");
         String genero = cuestionario.askQuestion(scanner,"Género: ");
-        System.out.println("Rating: ");
-        float rating = scanner.nextFloat();
-        scanner.nextLine(); // Limpia el salto de línea residual
+        double rating = validador.checkDoubleAnswer("Rating: ");
         String correo = cuestionario.askQuestion(scanner,"Correo electrónico: ");
         String telefono = cuestionario.askQuestion(scanner,"Teléfono: ");
 

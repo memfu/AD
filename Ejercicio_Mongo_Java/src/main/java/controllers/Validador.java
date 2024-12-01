@@ -20,15 +20,30 @@ public class Validador {
                 scanner.nextLine(); // Consume el salto de línea
                 return respuesta;
             } else {
+                System.out.println("Entrada inválida. Por favor, introduzca un número entero válido.");
+                scanner.nextLine(); // Limpia el buffer
+            }
+        }
+    }
+
+    public double checkDoubleAnswer(String pregunta) {
+        System.out.println(pregunta);
+        double respuesta;
+        while (true) {
+            if (scanner.hasNextDouble()) {
+                respuesta = Math.round(scanner.nextDouble() * 100)/100.0;
+                scanner.nextLine(); // Consume el salto de línea
+                return respuesta;
+            } else {
                 System.out.println("Entrada inválida. Por favor, introduzca un número válido.");
                 scanner.nextLine(); // Limpia el buffer
             }
         }
     }
-    public int pedirEdad(String mensaje) {
+    public int pedirEdad(String pregunta) {
         int edad;
         do {
-            System.out.print(mensaje);
+            System.out.print(pregunta);
             while (!scanner.hasNextInt()) {
                 System.out.println("Por favor, introduzca un número válido.");
                 scanner.nextLine();
@@ -40,36 +55,36 @@ public class Validador {
         return edad;
     }
 
-    public ArrayList<String> pedirArrayListAsignaturas() {
-        ArrayList<String> asignaturas = new ArrayList<>();
+    public ArrayList<String> pedirArrayList(String pregunta) {
+        ArrayList<String> arrayList = new ArrayList<>();
         boolean entradaValida = false;
 
         while (!entradaValida) {
-            System.out.println("Introduzca las asignaturas separadas por comas:");
+            System.out.println(pregunta);
             String entrada = scanner.nextLine();
 
             // Valida que contiene al menos una coma
             if (!entrada.contains(",")) {
-                System.out.println("Error: Las asignaturas deben estar separadas por comas. Inténtelo de nuevo.");
+                System.out.println("Error: Las arrayList deben estar separadas por comas. Inténtelo de nuevo.");
                 continue;
             }
 
-            // Divide y procesa las asignaturas
+            // Divide y procesa las arrayList
             String[] partes = entrada.split(",");
             for (String parte : partes) {
-                asignaturas.add(parte.trim()); // Elimina espacios adicionales
+                arrayList.add(parte.trim()); // Elimina espacios adicionales
             }
 
             // Valida que no hay elementos vacíos
-            if (asignaturas.isEmpty() || asignaturas.stream().anyMatch(String::isEmpty)) {
-                System.out.println("Error: Una o más asignaturas están vacías. Intenta de nuevo.");
-                asignaturas.clear(); // Limpia la lista antes de intentarlo de nuevo
+            if (arrayList.isEmpty() || arrayList.stream().anyMatch(String::isEmpty)) {
+                System.out.println("Error: Una o más arrayList están vacías. Intenta de nuevo.");
+                arrayList.clear(); // Limpia la lista antes de intentarlo de nuevo
             } else {
                 entradaValida = true; // La entrada es válida
             }
         }
 
-        return asignaturas;
+        return arrayList;
     }
 
 

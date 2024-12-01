@@ -17,7 +17,7 @@ public interface DBScheme {
     String keyPhone = "phone";
 
     // Keys solo para alumnos
-    String keyCalifAl = "calification";
+    String keyCalifAl = "calificaation";
     String keyGradeAl = "higher_grade";
 
     // Keys solo para profesores

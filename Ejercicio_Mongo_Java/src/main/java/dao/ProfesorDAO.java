@@ -4,6 +4,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import database.DBScheme;
 import database.MongoDBConnection;
 import model.Profesor;
@@ -33,8 +34,26 @@ public class ProfesorDAO {
         }
     }
 
-    public void updateProf(String campo) {
+    public boolean checkExistingProf(String campo, String value) {
+        boolean encontrado = false;
+        Bson filtroBusqueda = Filters.eq(campo,value);
+        FindIterable<Profesor> profe = collection.find(filtroBusqueda);
+        MongoCursor<Profesor> cursor = profe.cursor();
+        if (cursor.hasNext()) {
+            profesor = cursor.next();
+            return encontrado = true;
+        } else {
+            System.out.println("No se ha encontrado ningún docente con ese atributo.");
+            return encontrado = false;
+        }
+    }
 
+    public void updateProf(String mail, double newRating) {
+        Bson filtradoMail = Filters.eq(DBScheme.keyMail, mail);
+        Bson newCalification = Updates.set(DBScheme.keyRating, newRating);
+        collection.updateMany(filtradoMail, newCalification);
+        System.out.println("Se ha actualizado correctamente la calificación del profesor con correo " + mail
+                + " con la nota " + newRating + ".");
     }
 
     public void showProf() {
