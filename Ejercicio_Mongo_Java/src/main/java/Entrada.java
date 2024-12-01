@@ -15,7 +15,8 @@ public class Entrada {
 
     private static Usuario usuarioGeneral = new Usuario();
 
-    private static String menu = "Elija una de las siguientes opciones introduciendo el número:\n" +
+    private static String menu = "\n --- MENÚ ---\n" +
+            "Elija una de las siguientes opciones introduciendo el número:\n" +
             "1. Insertar un/a estudiante.\n" +
             "2. Insertar un/a docente.\n" +
             "3. Mostrar datos de usuarios.\n" +

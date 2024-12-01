@@ -21,6 +21,7 @@ public class ProfesorDAO {
     public void addProf(Usuario usuarioGeneral, String titulo, ArrayList<String> asignaturas) {
         profesor = new Profesor(usuarioGeneral,titulo,asignaturas);
         collection.insertOne(profesor);
+        System.out.println("Se ha insertado correctamente el/la docente " + profesor.getNombre() + " con correo electrónico " + profesor.getCorreo() + ".");
 
     }
 
@@ -28,9 +29,13 @@ public class ProfesorDAO {
         Bson filtroEdad = Filters.and(Filters.gte(DBScheme.keyAge, minAge), Filters.lte(DBScheme.keyAge,maxAge));
         FindIterable<Profesor> profesEdad = collection.find(filtroEdad);
         MongoCursor<Profesor> cursor = profesEdad.cursor();
-        while (cursor.hasNext()) {
-            profesor = cursor.next();
-            System.out.println(profesor.toString());
+        if (cursor.hasNext()) {
+            while (cursor.hasNext()) {
+                profesor = cursor.next();
+                System.out.println(profesor.toString());
+        }
+        } else {
+            System.out.println("No hay ningún docente en ese rango de edad.");
         }
     }
 

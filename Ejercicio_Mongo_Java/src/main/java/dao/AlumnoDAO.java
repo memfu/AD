@@ -19,6 +19,7 @@ public class AlumnoDAO {
     public void addAlumno(Usuario usuarioGeneral, String grado, int calificacion) {
         alumno = new Alumno(usuarioGeneral,grado,calificacion);
         collection.insertOne(alumno);
+        System.out.println("Se ha insertado correctamente el/la estudiante " + alumno.getNombre() + " con correo electrónico " + alumno.getCorreo() + ".");
     }
 
     public void searchAlumnoByMail(String email) {
