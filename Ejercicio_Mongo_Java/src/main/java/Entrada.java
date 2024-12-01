@@ -60,9 +60,9 @@ public class Entrada {
                             profesorDAO.showProf();
                             respuestaValida = true;
                         } else if (respuestaMostrar.equalsIgnoreCase("ambos")) {
-                            System.out.println("---ALUMNOS---");
+                            System.out.println("---ESTUDIANTES---");
                             alumnoDAO.showAlumnos();
-                            System.out.println("\n---PROFESORES---");
+                            System.out.println("\n---DOCENTES---");
                             profesorDAO.showProf();
                             respuestaValida = true;
                         } else {

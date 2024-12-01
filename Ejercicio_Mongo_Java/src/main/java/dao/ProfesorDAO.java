@@ -62,6 +62,10 @@ public class ProfesorDAO {
     }
 
     public void showProf() {
+        // Cuenta el número total de profesores en la colección
+        long totalProfs = collection.countDocuments();
+        System.out.println("Se han encontrado " + totalProfs + " docentes.");
+
         FindIterable<Profesor> allProfs = collection.find();
         MongoCursor<Profesor> cursor = allProfs.cursor();
         while (cursor.hasNext()){

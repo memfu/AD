@@ -47,6 +47,10 @@ public class AlumnoDAO {
     }
 
     public void showAlumnos(){
+        // Cuenta el número total de alumnos en la colección
+        long totalAlumnos = collection.countDocuments();
+        System.out.println("Se han encontrado " + totalAlumnos + " estudiantes.");
+
         FindIterable<Alumno> allStudents = collection.find();
         MongoCursor<Alumno> cursor = allStudents.cursor();
         while (cursor.hasNext()){
