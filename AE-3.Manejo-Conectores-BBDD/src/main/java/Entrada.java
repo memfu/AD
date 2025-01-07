@@ -96,12 +96,12 @@ public class Entrada {
                             case 2:
                                 System.out.println("Inserte el id del pasajero que desea borrar.");
                                 int idToDeletePass = validador.checkIntAnswer();
-                                passenger.managePassenger("ELIMINAR", idToDeletePass);
+                                passenger.deletePass(idToDeletePass);
                                 break;
                             case 3:
                                 System.out.println("Inserte el id del pasajero que desea consultar.");
                                 int idToSeekPass = validador.checkIntAnswer();
-                                passenger.managePassenger("BUSCAR",idToSeekPass);
+                                passenger.showPassengerById(idToSeekPass);
                                 break;
                             case 4:
                                 passenger.showPassengers();
@@ -150,7 +150,7 @@ public class Entrada {
                                 } while (!car.checkCarIdExistente(idCarToSeek));
 
                                 System.out.println("Estos son los pasajeros asociados al coche con id " + idCarToSeek + ".");
-                                System.out.println(passenger.showPassengersByCarId(idCarToSeek));
+                                passenger.showPassengersByCarId(idCarToSeek);
 
                                 break;
                             case 8:

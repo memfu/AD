@@ -149,6 +149,8 @@ public class CocheDAO {
     }
 
     public void updateNrPass(String accion, int id) throws SQLException {
+        updateCarsList();
+
         String queryUPDATE = "UPDATE %s SET %s = ? WHERE %s = ?";
         connection = new DBConnection().getConnection();
 
@@ -179,8 +181,6 @@ public class CocheDAO {
                 }
                 preparedStatement.execute();
                 new DBConnection().closeConnection();
-            } else {
-                System.out.println("No existe ningún coche con el id " + id + ".");
             }
         }
     }

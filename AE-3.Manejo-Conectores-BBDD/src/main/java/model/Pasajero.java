@@ -26,12 +26,6 @@ public class Pasajero implements Serializable {
         this.peso = peso;
     }
 
-    public Pasajero(String nombre, int edad, float peso, int carId) {
-        this.nombre = nombre;
-        this.edad = edad;
-        this.peso = peso;
-        this.cocheID = carId;
-    }
 
     @Override
     public String toString() {
