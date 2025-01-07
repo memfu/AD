@@ -17,12 +17,15 @@ public class DBConnection {
     }
 
     public void newConnection(){
-        String url = "jdbc:mysql://" + DBScheme.HOST + "/" + DBScheme.DB_NAME;
+        String url = "jdbc:mysql://" + DBScheme.HOST + ":" + DBScheme.PORT + "/" + DBScheme.DB_NAME;
 
         try {
             connection = DriverManager.getConnection(url,"root", "");
         } catch (SQLException e) {
             System.out.println("Error en la conexión de la base de datos.");
+            // Añadidos los mensajes específicos de los errores
+            System.out.println(e.getCause());
+            System.out.println(e.getMessage());
         }
 
         System.out.println("Conexión creada correctamente.");

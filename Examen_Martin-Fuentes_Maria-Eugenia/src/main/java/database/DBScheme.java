@@ -2,6 +2,8 @@ package database;
 
 public interface DBScheme {
     String HOST = "127.0.0.1";
+    // Añadido el PORT
+    String PORT = "3306";
     String DB_NAME = "usuarios";
 
     String TAB_USER = "usuarios";

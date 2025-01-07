@@ -19,29 +19,34 @@ public class UsuarioDAO {
     private ResultSet resultSet;
 
     public static ArrayList<Usuario> listadoUsuarios = new ArrayList<>();
+    // Si se crea en el constructor no se puede cerrar la conexión, por eso hay que evitar crearla en el constructor
+    /*
+    public UsuarioDAO() {connection = new DBConnection().getConnection();}
+     */
 
-    public UsuarioDAO() {
-        connection = new DBConnection().getConnection();
-    }
 
     public void addUser(Usuario usuario) throws SQLException {
         String query = String.format("INSERT into %s (%s,%s,%s,%s) VALUES (?,?,?,?)",
                 DBScheme.TAB_USER,
                 DBScheme.COL_USER_NAME, DBScheme.COL_USER_SURNAME, DBScheme.COL_USER_MAIL, DBScheme.COL_USER_PASS
         );
+        connection = new DBConnection().getConnection();
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, usuario.getNombre());
         preparedStatement.setString(2, usuario.getApellido());
         preparedStatement.setString(3, usuario.getCorreo());
         preparedStatement.setString(4, usuario.getPass());
-        preparedStatement.execute();
+        boolean fallo = preparedStatement.execute();
+        new DBConnection().closeConnection();
     }
 
     public ArrayList<Usuario> listUsers() throws SQLException {
         String query = String.format("SELECT %s, %s FROM %s",
                                     DBScheme.COL_ID, DBScheme.COL_USER_NAME, DBScheme.TAB_USER);
+        connection = new DBConnection().getConnection();
         preparedStatement = connection.prepareStatement(query);
         resultSet = preparedStatement.executeQuery();
+        new DBConnection().closeConnection();
         return getResultados(resultSet);
     }
 
