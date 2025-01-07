@@ -5,11 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Pasajero {
+public class Pasajero implements Serializable {
+    private static final long serialVersionUID = 20250107L;
+
     private int id;
     private String nombre;
     private int edad;

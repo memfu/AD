@@ -13,7 +13,7 @@ public interface DBScheme {
     String TAB_CAR = "coches";
     String TAB_PASS = "pasajeros";
 
-    String COL_ID = "id";
+    String COL_ID_CAR = "id";
 
     String COL_CAR_MARCA = "marca";
     String COL_CAR_MODEL = "modelo";
@@ -22,6 +22,7 @@ public interface DBScheme {
     String COL_CAR_PRICE = "precio";
     String COL_CAR_NRPASS = "nrPasajeros";
 
+    String COL_ID_PASS = "id";
     String COL_PASS_NAME = "nombre";
     String COL_PASS_AGE = "edad";
     String COL_PASS_PESO = "peso";

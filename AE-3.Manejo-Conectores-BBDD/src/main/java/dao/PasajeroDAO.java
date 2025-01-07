@@ -70,7 +70,7 @@ public class PasajeroDAO {
         String query = String.format(queryUPDATE,
                 DBScheme.TAB_PASS,
                 DBScheme.COL_PASS_CAR,
-                DBScheme.COL_ID
+                DBScheme.COL_ID_PASS
         );
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, idCar);
@@ -97,7 +97,7 @@ public class PasajeroDAO {
         String querySeek = String.format(query,
                 DBScheme.TAB_PASS,
                 DBScheme.COL_PASS_CAR,
-                DBScheme.COL_ID
+                DBScheme.COL_ID_PASS
         );
         preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, carId);

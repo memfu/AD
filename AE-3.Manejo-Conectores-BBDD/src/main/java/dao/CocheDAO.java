@@ -17,10 +17,10 @@ public class CocheDAO {
     private PreparedStatement preparedStatement;
     private ResultSet resultSet;
 
-    public static ArrayList<Coche> listadoCoches  = new ArrayList<>();
+    public static ArrayList<Coche> listadoCoches = new ArrayList<>();
 
-    private Scanner scanner;
-    private Validador validador;
+    private Scanner scanner = new Scanner(System.in);
+    private Validador validador = new Validador();
 
     public void addCar(Coche coche) throws SQLException {
         String query = String.format("INSERT into %s (%s,%s,%s,%s,%s) VALUES (?,?,?,?,?)",
@@ -35,30 +35,29 @@ public class CocheDAO {
         preparedStatement.setInt(4, coche.getCaballos());
         preparedStatement.setFloat(5, coche.getPrecio());
         preparedStatement.execute();
+        updateCarsList();
         new DBConnection().closeConnection();
     }
 
     public void manageCar(String accion, int id) throws SQLException {
-        boolean encontrado = false;
-        for (Coche car : listadoCoches) {
-            if (car.getId() == id) {
-                encontrado = true;
-                if (accion.equalsIgnoreCase("eliminar")) {
-                    listadoCoches.remove(car);
-                    System.out.println("El coche con id " + id + " ha sido eliminado correctamente de la lista.");
-                } else if (accion.equalsIgnoreCase("buscar")) {
-                    System.out.println(car.toString());
-                } else if (accion.equalsIgnoreCase("actualizar")) {
-                    updateCar(id);
+        if (checkCarIdExistente(id)) {
+            if (accion.equalsIgnoreCase("buscar")) {
+                updateCarsList();
+                for (Coche car : listadoCoches) {
+                    if (car.getId() == id) {
+                        System.out.println(car.toString());
+                    }
                 }
+            } else if (accion.equalsIgnoreCase("actualizar")) {
+                updateCar(id);
             }
-        }
-        if (!encontrado) {
+        } else {
             System.out.println("No se ha encontrado ningún coche con id " + id + ".");
         }
     }
 
-    public void updateCar(int id) throws SQLException {
+    private void updateCar(int id) throws SQLException {
+
         String queryUPDATE = "UPDATE %s SET %s = ? WHERE %s = ?";
         connection = new DBConnection().getConnection();
 
@@ -66,7 +65,6 @@ public class CocheDAO {
         System.out.println("Indique que campo de los siguientes quiere modificar: marca, modelo, color, caballos o precio.");
         String respuestaMod = scanner.nextLine();
 
-        System.out.println("Indique el nuevo valor.");
         if (!respuestaMod.equalsIgnoreCase("marca") &&
                 !respuestaMod.equalsIgnoreCase("modelo") &&
                 !respuestaMod.equalsIgnoreCase("color") &&
@@ -74,12 +72,13 @@ public class CocheDAO {
                 !respuestaMod.equalsIgnoreCase("precio")) {
             System.out.println("Campo no reconocido.");
         } else {
+            System.out.println("Indique el nuevo valor.");
             if (respuestaMod.equalsIgnoreCase("caballos")) {
                 int cvNew = validador.checkIntAnswer();
                 String query = String.format(queryUPDATE,
                         DBScheme.TAB_CAR,
                         DBScheme.COL_CAR_CV,
-                        DBScheme.COL_ID
+                        DBScheme.COL_ID_CAR
                 );
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setInt(1, cvNew);
@@ -90,7 +89,7 @@ public class CocheDAO {
                 String query = String.format(queryUPDATE,
                         DBScheme.TAB_CAR,
                         DBScheme.COL_CAR_PRICE,
-                        DBScheme.COL_ID
+                        DBScheme.COL_ID_CAR
                 );
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setFloat(1, priceNew);
@@ -100,7 +99,7 @@ public class CocheDAO {
                 String query = String.format(queryUPDATE,
                         DBScheme.TAB_CAR,
                         DBScheme.COL_CAR_MARCA,
-                        DBScheme.COL_ID
+                        DBScheme.COL_ID_CAR
                 );
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, newValue);
@@ -110,7 +109,7 @@ public class CocheDAO {
                 String query = String.format(queryUPDATE,
                         DBScheme.TAB_CAR,
                         DBScheme.COL_CAR_MODEL,
-                        DBScheme.COL_ID
+                        DBScheme.COL_ID_CAR
                 );
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, newValue);
@@ -120,7 +119,7 @@ public class CocheDAO {
                 String query = String.format(queryUPDATE,
                         DBScheme.TAB_CAR,
                         DBScheme.COL_CAR_COLOR,
-                        DBScheme.COL_ID
+                        DBScheme.COL_ID_CAR
                 );
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, newValue);
@@ -131,6 +130,22 @@ public class CocheDAO {
             new DBConnection().closeConnection();
         }
 
+    }
+
+    public void deleteCar(int id) throws SQLException {
+        String queryDELETE = "DELETE FROM %s WHERE %s = ?";
+        connection = new DBConnection().getConnection();
+        String query = String.format(queryDELETE,
+                DBScheme.TAB_CAR,
+                DBScheme.COL_ID_CAR
+        );
+        preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, id);
+        preparedStatement.execute();
+        updateCarsList();
+        System.out.println("Se ha eliminado el coche con id " + id + ".");
+
+        new DBConnection().closeConnection();
     }
 
     public void updateNrPass(String accion, int id) throws SQLException {
@@ -144,7 +159,7 @@ public class CocheDAO {
                     String query = String.format(queryUPDATE,
                             DBScheme.TAB_CAR,
                             DBScheme.COL_CAR_NRPASS,
-                            DBScheme.COL_ID
+                            DBScheme.COL_ID_CAR
                     );
                     preparedStatement = connection.prepareStatement(query);
                     preparedStatement.setInt(1, currentNrPass-1);
@@ -154,7 +169,7 @@ public class CocheDAO {
                     String query = String.format(queryUPDATE,
                             DBScheme.TAB_CAR,
                             DBScheme.COL_CAR_NRPASS,
-                            DBScheme.COL_ID
+                            DBScheme.COL_ID_CAR
                     );
                     preparedStatement = connection.prepareStatement(query);
                     preparedStatement.setInt(1, currentNrPass+1);
@@ -170,67 +185,43 @@ public class CocheDAO {
         }
     }
 
-    public String showCars() throws SQLException {
-        String query = "SELECT * FROM " + DBScheme.TAB_CAR;
-        connection = new DBConnection().getConnection();
-        preparedStatement = connection.prepareStatement(query);
-        resultSet = preparedStatement.executeQuery();
-        StringBuilder resultado = new StringBuilder(); // Para acumular los resultados en formato texto.
-        while (resultSet.next()){
-            String marca = resultSet.getString(DBScheme.COL_CAR_MARCA);
-            String modelo = resultSet.getString(DBScheme.COL_CAR_MODEL);
-            String color = resultSet.getString(DBScheme.COL_CAR_COLOR);
-            int cv = resultSet.getInt(DBScheme.COL_CAR_CV);
-            int precio = resultSet.getInt(DBScheme.COL_CAR_PRICE);
-            int nrPass = resultSet.getInt(DBScheme.COL_CAR_NRPASS);
-            listadoCoches.add(new Coche(marca,modelo,color,cv,precio,nrPass));
-        }
-
-        for (Coche car : listadoCoches) {
-            resultado.append(car.toString()).append("\n");
-        }
-        new DBConnection().closeConnection();
-
-        return resultado.toString();
-
-    }
-
-
-    /*public String showCars() throws SQLException {
-        String query = "SELECT * FROM " + DBScheme.TAB_CAR;
-        connection = new DBConnection().getConnection();
-
-        preparedStatement = connection.prepareStatement(query);
-        resultSet = preparedStatement.executeQuery();
-        new DBConnection().closeConnection();
-        return getResultados(resultSet);
-    }
-
-    private String getResultados(ResultSet datosResultantes) throws SQLException {
-        StringBuilder resultado = new StringBuilder(); // Para acumular los resultados en formato texto.
-        while (datosResultantes.next()){
-            String marca = resultSet.getString(DBScheme.COL_CAR_MARCA);
-            String modelo = resultSet.getString(DBScheme.COL_CAR_MODEL);
-            String color = resultSet.getString(DBScheme.COL_CAR_COLOR);
-            int cv = resultSet.getInt(DBScheme.COL_CAR_CV);
-            int precio = resultSet.getInt(DBScheme.COL_CAR_PRICE);
-            int nrPass = resultSet.getInt(DBScheme.COL_CAR_NRPASS);
-            listadoCoches.add(new Coche(marca,modelo,color,cv,precio,nrPass));
-        }
-
-        for (Coche car : listadoCoches) {
-            resultado.append(car.toString()).append("\n");
-        }
-        return resultado.toString();
-    }*/
-
-    public boolean checkCarIdExistente(int carId) {
-        for (Coche car : listadoCoches) {
-            if(car.getId() != carId) {
-                System.out.println("No existe ningún coche con ese identificador. Por favor, introduzca un identificador válido.");
-                return false; // La matrícula existe ya en la lista de coches
+    public void showCars() throws SQLException {
+        updateCarsList();
+        if (listadoCoches.isEmpty()) {
+            System.out.println("No hay coches en el listado.");
+        } else {
+            for (Coche car : listadoCoches) {
+                System.out.println((car.toString()) + "\n");
             }
         }
-        return true;
+    }
+
+    private ArrayList<Coche> updateCarsList() throws SQLException {
+        listadoCoches = new ArrayList<>();
+        String query = "SELECT * FROM " + DBScheme.TAB_CAR;
+        connection = new DBConnection().getConnection();
+        preparedStatement = connection.prepareStatement(query);
+        resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()){
+            int id = resultSet.getInt(DBScheme.COL_ID_CAR);
+            String marca = resultSet.getString(DBScheme.COL_CAR_MARCA);
+            String modelo = resultSet.getString(DBScheme.COL_CAR_MODEL);
+            String color = resultSet.getString(DBScheme.COL_CAR_COLOR);
+            int cv = resultSet.getInt(DBScheme.COL_CAR_CV);
+            int precio = resultSet.getInt(DBScheme.COL_CAR_PRICE);
+            int nrPass = resultSet.getInt(DBScheme.COL_CAR_NRPASS);
+            listadoCoches.add(new Coche(id,marca,modelo,color,cv,precio,nrPass));
+        }
+        new DBConnection().closeConnection();
+        return listadoCoches;
+    }
+
+    public boolean checkCarIdExistente(int carId) throws SQLException {
+        connection = new DBConnection().getConnection();
+        preparedStatement = connection.prepareStatement(String.format("SELECT %s FROM %s WHERE %s=?",
+                DBScheme.COL_ID_CAR, DBScheme.TAB_CAR, DBScheme.COL_ID_CAR));
+        preparedStatement.setInt(1, carId);
+        resultSet = preparedStatement.executeQuery();
+        return resultSet.next();
     }
 }

@@ -5,11 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Coche {
+public class Coche implements Serializable {
+    private static final long serialVersionUID = 20250107L;
+
     private int id;
     private String marca, modelo, color;
     private int caballos;
@@ -36,6 +40,7 @@ public class Coche {
     @Override
     public String toString() {
         return "ID: " + id + " - Marca: " + marca + ", modelo: " + modelo +
+                "\n\t Color: " + color +
                 "\n\t Caballos: " + caballos +
                 "\n\t Precio: " + precio +
                 "\n\t Nr. de pasajeros: " + nrPass;

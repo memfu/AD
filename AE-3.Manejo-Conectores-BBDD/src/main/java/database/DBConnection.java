@@ -11,7 +11,7 @@ public class DBConnection {
         if(connection==null) {
             newConnection();
         }
-        System.out.println("Conexión obtenida.");
+        // System.out.println("Conexión obtenida.");
         return connection;
 
     }
@@ -27,8 +27,6 @@ public class DBConnection {
             System.out.println(e.getCause());
             System.out.println(e.getMessage());
         }
-
-        System.out.println("Conexión creada correctamente.");
 
     }
 

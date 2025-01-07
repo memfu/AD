@@ -56,9 +56,14 @@ public class Entrada {
                     car.addCar(new Coche(marca, modelo, color, cv, price));
                     break;
                 case 2:
-                    System.out.println("Inserte el id del coche que desea borrar.");
-                    int idToDelete = validador.checkIntAnswer();
-                    car.manageCar("ELIMINAR", idToDelete);
+                    int idToDelete;
+                    do {
+                        // Comprobación si el identificador del coche existe
+                        System.out.println("Inserte el id del coche que desea borrar.");
+                        idToDelete = validador.checkIntAnswer();
+                    } while (!car.checkCarIdExistente(idToDelete));
+
+                    car.deleteCar(idToDelete);
                     break;
                 case 3:
                     System.out.println("Inserte el id del coche que desea consultar.");
@@ -103,7 +108,7 @@ public class Entrada {
                                 break;
                             case 5:
                                 System.out.println("Estos son los coches disponibles.");
-                                System.out.println(car.showCars());
+                                car.showCars();
 
                                 System.out.println("Inserte el id del pasajero que desea añadir. " +
                                         "\n Recuerde que un pasajero solo puede ir asociado a un coche." +
@@ -122,7 +127,7 @@ public class Entrada {
                                 break;
                             case 6:
                                 System.out.println("Estos son los coches disponibles.");
-                                System.out.println(car.showCars());
+                                car.showCars();
 
                                 System.out.println("Inserte el id del pasajero que desea eliminar. ");
                                 int idPassToDelete = validador.checkIntAnswer();
