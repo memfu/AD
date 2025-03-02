@@ -1,5 +1,6 @@
 package dao;
 
+import Validaciones.Validador;
 import database.HibernateUtil;
 import model.Editorial;
 import org.hibernate.Session;
@@ -11,6 +12,7 @@ import java.util.List;
 public class EditorialDAO {
 
     private Session session;
+    private Validador validador;
     private List<Editorial> listaEditoriales = new ArrayList<Editorial>();
 
     public List<Editorial> getListaEditoriales() {
@@ -29,5 +31,13 @@ public class EditorialDAO {
         session.persist(editorial);
         session.getTransaction().commit();
         session.close();
+    }
+
+    public Editorial buscarPorNombre(String nombre) {
+        nombre = validador.quitarTildes(nombre.toLowerCase());
+        session = new HibernateUtil().getSessionFactory().getCurrentSession();
+        return session.createQuery("FROM Editorial e WHERE LOWER(e.nombre) = LOWER(:nombre) ", Editorial.class)
+                .setParameter("nombre", nombre)
+                .uniqueResult();
     }
 }

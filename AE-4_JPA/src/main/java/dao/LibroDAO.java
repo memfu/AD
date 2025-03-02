@@ -14,16 +14,7 @@ public class LibroDAO {
     private Session session;
     private List<Libro> listaLibros = new ArrayList<Libro>();
 
-    public void crearLibro(Libro libro, Editorial editorial, Autor autor) {
-        session = new HibernateUtil().getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        libro.setEditorial(editorial);
-        libro.setAutor(autor);
-        session.merge(libro);
-        session.getTransaction().commit();
-        session.close();
-    }
-    public void crearLibroSimple(Libro libro) {
+    public void crearLibro(Libro libro) {
         session = new HibernateUtil().getSessionFactory().getCurrentSession();
         session.beginTransaction();
         session.persist(libro);
@@ -46,5 +37,7 @@ public class LibroDAO {
         session.close();
         return listaLibros;
     }
+
+
 
 }

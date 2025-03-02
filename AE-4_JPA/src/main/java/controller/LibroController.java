@@ -34,28 +34,65 @@ public class LibroController {
     - Para dar de alta una librería, el libro tiene que estar dado de alta
      */
 
-    public void agregarLibro(Libro libro){
-        List<Editorial> listaEditoriales = editorialDAO.getListaEditoriales();
-        List<Autor> listaAutores = autorDAO.getListaAutores();
+    public void darAltaAutor(Autor autor){
+        autorDAO.agregarAutor(autor);
+    }
 
-        for (Editorial editorial : listaEditoriales) {
-            if (editorial == libro.getEditorial()) {
-                for (Autor autor : listaAutores) {
-                    if (autor == libro.getAutor()) {
-                        libroDAO.crearLibro(libro,editorial,autor);
-                    } else {
-                        System.out.println("El autor no se ha agregado todavía. Por favor, cree el autor primero.");
-                    }
-                }
-            } else {
-                System.out.println("La editorial no se ha agregado todavía. Por favor, cree la editorial primero.");
-            }
+    public void darAltaEditorial(Editorial editorial){
+        editorialDAO.crearEditorial(editorial);
+    }
+
+    public void agregarLibro(String titulo, double precio, String nombreEditorial, String nombreAutor, String apellidosAutor){
+        Editorial editorial = editorialDAO.buscarPorNombre(nombreEditorial);
+        Autor autor = autorDAO.buscarPorNombreYApellidos(nombreAutor, apellidosAutor);
+
+        if (editorial == null) {
+            System.out.println("❌ La editorial '" + nombreEditorial + "' no existe. Debe crearse antes.");
+            return;
         }
+        if (autor == null) {
+            System.out.println("❌ El autor '" + nombreAutor + " " + apellidosAutor + "' no existe. Debe crearse antes.");
+            return;
+        }
+
+        Libro libro = new Libro(titulo,precio);
+        libro.setEditorial(editorial);
+        libro.setAutor(autor);
+
+        libroDAO.crearLibro(libro);
+        System.out.println("✅ Libro agregado correctamente: " + titulo);
 
     }
 
     public void agregarLibreria(Libreria libreria){
-        List<Libro> listaLibros = libroDAO.getAllLibros();
+        //TODO
 
+    }
+
+    public void listaLibrosConEditorialyAutor() {
+        // Consigue la lista de libros
+        List<Libro> listaLibros = libroDAO.getAllLibros();
+        // Itera por la lista de libros
+        for (Libro libro : listaLibros) {
+            // Imprime el id y el titulo del libro
+            System.out.println(libro.getId() + " - " + libro.getTitulo()
+                    + "\n\t Editorial: " + libro.getEditorial().getNombre()
+                    + "\n\t Autor: " +libro.getAutor().getNombre() + " " + libro.getAutor().getApellidos());
+        }
+    }
+    public void listaAutoresYObras() {
+        // Consigue la lista de autores
+        List<Autor> listaAutores = autorDAO.getListaAutores();
+        // Itera por la lista de autores
+        for (Autor autor : listaAutores) {
+            // Imprime el nombre y los apellidos del autor
+            System.out.println(autor.getNombre() + " " + autor.getLibrosEscritos());
+            // Itera por los libros escritos por ese autor
+            for (Libro librosEscrito : autor.getLibrosEscritos()) {
+                // Imprime el título del libro
+                System.out.println("\t- " + librosEscrito.getTitulo() + ".");
+            }
+
+        }
     }
 }

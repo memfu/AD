@@ -26,15 +26,12 @@ public class Editorial implements Serializable {
     private String direccion;
 
     //Bidireccionalidad con la entidad Libro -> busca en la clase "Libro", el atributo "editorial" para conseguir todos los libros con la editorial
-    @OneToMany(mappedBy = "editorial")
+    @OneToMany(mappedBy = "editorial", fetch = FetchType.EAGER)
     private List<Libro> librosPublicados;
 
     public Editorial(String nombre, String direccion) {
         this.nombre = nombre;
         this.direccion = direccion;
-    }
-    public Editorial(String nombre){
-        this.nombre = nombre;
     }
 
 

@@ -38,9 +38,4 @@ public class Autor implements Serializable {
         this.apellidos = apellidos;
         this.fechaNac = fechaNac;
     }
-
-    public Autor(String nombre, String apellidos){
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-    }
 }

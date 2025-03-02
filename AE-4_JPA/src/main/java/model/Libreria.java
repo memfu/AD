@@ -25,7 +25,11 @@ public class Libreria implements Serializable {
     private  String nombreProp;
     @Column
     private String direccion;
-    // TODO
+
+    @ManyToMany (cascade = CascadeType.ALL)
+    @JoinTable (name = "catalogo_librerias",
+                joinColumns = @JoinColumn(name = "libreria_id"),
+                inverseJoinColumns = @JoinColumn(name = "libro_id"))
     private List<Libro> coleccionLibros;
 
     public Libreria(String nombreProp, String direccion){

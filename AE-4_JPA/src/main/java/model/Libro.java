@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,17 +31,14 @@ public class Libro implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "editorial_id")
     private Editorial editorial;
+
     // un libro tiene un autor, un autor puede tener muchos libros
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "autor_id")
     private Autor autor;
 
-    public Libro(String titulo, double precio, Editorial editorial, Autor autor) {
-        this.titulo = titulo;
-        this.precio = precio;
-        this.editorial = editorial;
-        this.autor = autor;
-    }
+    @ManyToMany(mappedBy = "coleccionLibros")
+    private List<Libreria> listaLibrerias;
 
     public Libro(String titulo, double precio) {
         this.titulo = titulo;
