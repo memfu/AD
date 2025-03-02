@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 
 @Entity
-@Table
+@Table (name = "editoriales")
 public class Editorial implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

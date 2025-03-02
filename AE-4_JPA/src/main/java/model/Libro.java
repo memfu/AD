@@ -28,16 +28,16 @@ public class Libro implements Serializable {
 
     // un libro tiene una editorial, una editorial puede tener muchos libros
     // Cascada: si hago aquí una modificación, la replico en cascada a todos aquellos objetos con los que esté relacionado
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "editorial_id")
     private Editorial editorial;
 
     // un libro tiene un autor, un autor puede tener muchos libros
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id")
     private Autor autor;
 
-    @ManyToMany(mappedBy = "coleccionLibros")
+    @ManyToMany(mappedBy = "coleccionLibros", fetch = FetchType.EAGER)
     private List<Libreria> listaLibrerias;
 
     public Libro(String titulo, double precio) {

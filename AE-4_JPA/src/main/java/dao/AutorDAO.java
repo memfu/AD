@@ -28,17 +28,29 @@ public class AutorDAO {
         nombre = validador.quitarTildes(nombre.toLowerCase());
         apellidos = validador.quitarTildes(apellidos.toLowerCase());
         session = new HibernateUtil().getSessionFactory().getCurrentSession();
-        return session.createQuery("FROM Autor a WHERE LOWER(a.nombre) = :nombre " +
+        session.beginTransaction();
+        Query<Autor> autorQuery = session.createQuery
+                ("FROM Autor a WHERE LOWER(a.nombre) = :nombre " +
+                "AND LOWER(a.apellidos) = :apellidos", Autor.class);
+        // Parámetro nominal - sino parámetro posicional
+        autorQuery.setParameter("nombre", nombre);
+        autorQuery.setParameter("apellidos", apellidos);
+        Autor autorEncontrado = autorQuery.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return autorEncontrado;
+       /* // Alternativa para ponerlo todo de una
+       return session.createQuery("FROM Autor a WHERE LOWER(a.nombre) = :nombre " +
                         "AND LOWER(apellidos) = :apellidos", Autor.class)
                 .setParameter("nombre", nombre)
-                .setParameter("apellido", apellidos)
-                .uniqueResult();
+                .setParameter("apellidos", apellidos)
+                .uniqueResult();*/
     }
 
     public List<Autor> getListaAutores() {
         session = new HibernateUtil().getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Query<Autor> query = session.createNamedQuery("Autor.findAll",Autor.class);
+        Query<Autor> query = session.createQuery("FROM Autor",Autor.class);
         listaAutores = query.list();
         session.getTransaction().commit();
         session.close();
