@@ -40,7 +40,7 @@ public class LibroDAO {
         /*
         Como ya tengo la relación ManyToMany tanto en Libro como en Libreria metidas en el correspondiente
         atributo, no necesito hacer nada más
-        * */
+        */
         List<Libro> listaLibrosConLibrerias = session.createQuery("FROM Libro", Libro.class).list();
         session.getTransaction().commit();
         session.close();
