@@ -26,7 +26,7 @@ public class Main {
                 "Salamandra", "J.K.", "Rowling");
         libroController.agregarLibro("Harry Potter y la Cámara de los Secretos", 15.99,
                 "Salamandra", "J.K.", "Rowling");
-        libroController.agregarLibro("Harry Potter y la Prisionero de Azkaban", 17.99,
+        libroController.agregarLibro("Harry Potter y el Prisionero de Azkaban", 17.99,
                 "Salamandra", "J.K.", "Rowling");
         libroController.agregarLibro("Momo", 11.99,
                 "Penguin", "Michael", "Ende");

@@ -21,7 +21,7 @@ public class Autor implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     @Column
     private  String nombre;
     @Column
@@ -37,5 +37,12 @@ public class Autor implements Serializable {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.fechaNac = fechaNac;
+    }
+
+    public Autor(String nombre, String apellidos, LocalDate fechaNac, List<Libro> librosEscritos) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.fechaNac = fechaNac;
+        this.librosEscritos = librosEscritos;
     }
 }

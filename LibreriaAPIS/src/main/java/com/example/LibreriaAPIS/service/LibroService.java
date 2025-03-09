@@ -14,7 +14,7 @@ public interface LibroService {
 
     List<Libro> findByTitulo(String titulo);
 
-    List<Libro> findByAutor_Nombre(String nombreAutor);
+    List<Libro> findByAutor(String nombreAutor, String apellidosAutor);
 
     List<Libro> findByListaLibrerias_Nombre(String nombreLibreria);
 

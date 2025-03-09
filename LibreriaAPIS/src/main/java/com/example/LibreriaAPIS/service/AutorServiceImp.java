@@ -29,9 +29,8 @@ public class AutorServiceImp implements AutorService{
         return autorRepository.findByNombre(nombreAutor);
     }
 
-
     @Override
-    public List<Autor> findByNombreYApellido(String nombre, String apellido) {
-        return autorRepository.findByNombreYApellido(nombre, apellido);
+    public List<Autor> findByNombreAndApellidos(String nombre, String apellidos) {
+        return autorRepository.findByNombreAndApellidos(nombre, apellidos);
     }
 }

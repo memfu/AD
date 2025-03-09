@@ -1,11 +1,29 @@
 package com.example.LibreriaAPIS.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.LibreriaAPIS.model.Libreria;
+import com.example.LibreriaAPIS.service.LibreriaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-// Esta clase se usa como punto de entrada de las peticiones REST
+import java.util.List;
+
 @RestController
 @RequestMapping("librerias")
 public class LibreriaController {
-    // todos los métodos que quiero que se puedan ejecutar desde la URL
+
+    @Autowired
+    private LibreriaService libreriaService;
+
+    @PostMapping("add")
+    public Libreria addLibrerias(@RequestBody Libreria libreria) {
+        libreriaService.agregarLibreria(libreria);
+        return libreria;
+    }
+
+    @GetMapping("getAll")
+    public ResponseEntity<List<Libreria>> getLibrerias(){
+        return new ResponseEntity<>(libreriaService.getAllLibreria(), HttpStatus.OK);
+    }
 }

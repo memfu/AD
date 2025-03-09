@@ -11,6 +11,6 @@ public interface AutorService {
 
     List<Autor> findByNombre(String nombre);
 
-    List<Autor> findByNombreYApellido(String nombre, String apellido);
+    List<Autor> findByNombreAndApellidos(String nombre, String apellidos);
 
 }

@@ -2,6 +2,8 @@ package com.example.LibreriaAPIS.repository;
 
 import com.example.LibreriaAPIS.model.Libro;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -10,8 +12,8 @@ import java.util.List;
 public interface LibroRepository extends JpaRepository<Libro, Integer> {
 
     List<Libro> findByTitulo(String titulo);
-
-    List<Libro> findByAutor_Nombre(String nombreAutor);
+    @Query("SELECT l FROM Libro l WHERE l.autor.nombre = :nombre AND l.autor.apellidos = :apellidos")
+    List<Libro> findByAutor(@Param("nombre") String nombre, @Param("apellidos") String apellidos);
 
     List<Libro> findByListaLibrerias_Nombre(String nombreLibreria);
 
