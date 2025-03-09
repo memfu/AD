@@ -33,6 +33,4 @@ public class Editorial implements Serializable {
         this.nombre = nombre;
         this.direccion = direccion;
     }
-
-
 }

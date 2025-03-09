@@ -1,4 +1,7 @@
 package com.example.LibreriaAPIS.repository;
 
-public interface EditorialRepository {
+import com.example.LibreriaAPIS.model.Editorial;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EditorialRepository extends JpaRepository<Editorial, Integer> {
 }
